@@ -22,18 +22,24 @@ pragma solidity ^0.8.0;
 * - Mortal. All this Conttract to 'selfdestruct'. In the process all remaining balance is transfered to the owner.
 * - Access Restriction. Provide the 'modifiers' to restrict certain functions to addresses assigned as 'admins'. 
 * - Circuit Breaker. Provide the 'modifiers' needed to halt execution of the contract, for example in case of misuse or emmergencies
+* - Arm-Go. The critical functions (deploy, kill, etc) follows a two step process (arm-go).
 *
 * The class operates with 3 set of roles
 * - Owner. The creator of the contract. Must be 'payable'. Is immutale, i.e. cant be changed. Always also cover the 'Admin' role.
 * - Admin. A registered administrator. Must be registered by another admin. Owner is always available as an Admin. Can access all functions. 
 * - Anonomous. Has restricted access, i.e. only functions not using the modifier 'isAdmin' can be accessed.
 *
+* Following deployment the state will be 'inactive' following the Circuit Breaker pattern. The contract must be 
+* activated explicitly (arm-go principle).
+*
 * Selfdestruct must be done in two steps (arm-go principle); first the contract must be deactivated, then it can be killed.
 */
 contract Base {
 
-    /* @notice */
-    address payable private immutable owner;
+    /* @notice 
+    *  @dev This could likely be immutable
+    */
+    address payable private owner;
 
     /* @notice */
     mapping(address => bool) private admins;
@@ -47,7 +53,7 @@ contract Base {
     */
     constructor() {
         owner = payable(msg.sender);
-        active = true;
+        active = false;
     }
 
     /* @notice
@@ -119,6 +125,30 @@ contract Base {
     public
     {
         active = false;
+    }
+
+    /* @notice
+    *  @param
+    *  @return
+    */
+    function inState()
+    public
+    view
+    returns(bool)
+    {
+        return active;
+    }
+
+    /* @notice
+    *  @param
+    *  @return
+    */
+    function getOwner() 
+    public
+    view
+    returns (address payable) 
+    {
+        return owner;
     }
 
     /* @notice

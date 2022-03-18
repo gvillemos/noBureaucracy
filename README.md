@@ -5,6 +5,14 @@ Methods such as Holacracy is one way of structuring a DSOO. Holacracy defines cl
 
 This repository collect smart contracts coded in Solidity.
 
+Documentation
+All documentation in https://ethereum.stackexchange.com/questions/51494/which-doxygen-tags-are-allowed-for-contracts
+@title - A title that should describe the contract
+@author - The name of the author of the contract
+@notice - Explain to a user what a function does
+@dev - Explain to a developer any extra details
+@param - Documents a function parameter
+@return - Documents the return type of a function
 
 Patterns
 
