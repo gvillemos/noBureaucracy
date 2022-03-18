@@ -155,6 +155,17 @@ contract Base {
     *  @param
     *  @return
     */
+    function isAddressAdmin(address admin) 
+    public
+    view
+    returns(bool)
+    {
+        return admins[admin];
+    }
+    /* @notice
+    *  @param
+    *  @return
+    */
     function kill() 
     isAdmin
     isInactive
