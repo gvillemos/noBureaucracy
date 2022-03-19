@@ -43,8 +43,12 @@ contract Circle is Base {
     2/ What can they do?
     3/ Do it! */
 
-    /* @dev Linkely need a link to an external DB in the future, i.e. to HolaSpirit or Glassfrog*/
-    mapping(address => bool) members;
+    /* @notice Map of all members of this circle. Only members of the circle can perform functions on the circle.
+    *  @dev Linkely need a link to an external DB in the future, i.e. to HolaSpirit or Glassfrog*/
+    mapping(address => bool) members private;
+
+    /* @notice the maximal amount that can be automatically reimbursed. */
+    uint limit public;
     
     public function addMember(address member) 
     isAdmin
@@ -60,4 +64,33 @@ contract Circle is Base {
         members[member] = false;
     }
 
+    modifier isMember(address requester) {
+        require(members[requester] > 0);
+        _;
+    }
+
+    modifier hasBalance(uint amount) {
+        require(address(this).balance > amount)
+        _;
+    }
+
+    function requestReimbursement(uint amount) 
+    isMember(msg.sender)
+    isActive
+    isWithinLimit(amount)
+    {
+
+
+    }
+
+   /* @notice Map of all members of this circle. Only members of the circle can perform functions on the circle.
+    * @dev This should likely use the 'withdraw' pattern. */
+    function confirmReimbursement(address requester, uint timestamp) 
+    isMember(msg.sender)
+    isMember(requester)
+    requestExist(requester, timestamp)
+    isActive
+    {
+
+    }
 }
