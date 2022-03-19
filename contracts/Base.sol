@@ -36,56 +36,51 @@ pragma solidity ^0.8.0;
 */
 contract Base {
 
-    /* @notice 
+    /* @notice The single owner. The creator of the contract is automatically the owner and cannot be
+    *  changed.
     *  @dev This could likely be immutable
     */
     address payable private owner;
 
-    /* @notice */
+    /* @notice Lits of all admins. */
     mapping(address => bool) private admins;
 
-    /* @notice */
+    /* @notice State of the conttract. Possible states are true (active) or false (inactive) */
     bool private active;
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Create the contract and assign the caller as owner
     */
     constructor() {
         owner = payable(msg.sender);
         active = false;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Modifier to check whether the contract is active. Implements the circuit break pattern.
+    *  All functions who should only be possible in an 'active' state should use this modifier.
     */
     modifier isActive() {
         require(active == true, "Can only be executed when contract is active. Contract is inactive");
         _;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Modifier to check whether the contract is inactive. Implements the circuit break pattern.
+    *  All functions who should only be possible in an 'inactive' state should use this modifier.
     */
     modifier isInactive() {
         require(active == false, "Can only be executed when contract is inactive. Contract is active.");
         _;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Modifier to check whether the caller is an administrator. Implements the circuit restricted access pattern.
+    *  All functions which can only be executed by admins should use this modifier.
     */
     modifier isAdmin() {
         require(admins[msg.sender] == true || msg.sender == address(owner), "Can only be executed as admin.");
         _;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Adds an address as administrator. Can only be called by an existing admin. Notice that the owner is always admin.
+    *  @param address to be added as an admin
     */
     function addAdmin(address newAdmin) 
     isAdmin
@@ -94,20 +89,17 @@ contract Base {
         admins[newAdmin] = true;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice Remove an adress as administrator.
+    *  @param address to be removed
     */
-    function removeAdmin(address newAdmin) 
+    function removeAdmin(address oldAdmin) 
     isAdmin
     public
     {
-        admins[newAdmin] = false;
+        admins[oldAdmin] = false;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice function to activate this contract. Can only be called by an admin. Implement the 'Circuit Break' pattern.
     */
     function activate() 
     isAdmin
@@ -116,9 +108,7 @@ contract Base {
         active = true;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice function to deactive this contract. Can only be called by an admin. Implement the 'Circuit Break' pattern.
     */
     function deactivate()
     isAdmin
@@ -127,9 +117,8 @@ contract Base {
         active = false;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice function to check the current runtime state of this contract.
+    *  @return bool indicating state. true = active, false = inactive
     */
     function inState()
     public
@@ -139,9 +128,8 @@ contract Base {
         return active;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice function to get the address of the owner of the contract
+    *  @return payable address of the owner
     */
     function getOwner() 
     public
@@ -151,9 +139,9 @@ contract Base {
         return owner;
     }
 
-    /* @notice
-    *  @param
-    *  @return
+    /* @notice function to check whether a specific address is an admin
+    *  @param address to be checked whether admin or not
+    *  @return bool whether the provided address is admin (true) or not (false)
     */
     function isAddressAdmin(address admin) 
     public
@@ -162,9 +150,12 @@ contract Base {
     {
         return admins[admin];
     }
-    /* @notice
-    *  @param
-    *  @return
+
+    /* @notice Function to permanently kill this contract, i.e. irreversiably remove the contracts from the
+    *  chain. In the case of termination the remaining balance of the contract is transfered to the owner.
+    * 
+    *  Can only be called by an admin. Can only be called in an inactive state, i.e. first the contract must be 
+    *  deactivated, then it can be killed (arm-go principle).
     */
     function kill() 
     isAdmin

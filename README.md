@@ -40,4 +40,4 @@ Pattern analysis identifying more than 30 design patterns covering four categori
 
 * State Machine (https://www.linkedin.com/pulse/ethereum-solidity-smart-contract-design-patterns-wael-yousfi/) - Contracts often act as a state machine, where the contract has certain states in which it behaves differently and different functions can and should be called. A function call often ends a stage and moves the contract to the next stage (especially if the contract models interaction). It is also common that some stages are automatically reached at a certain point in time.
 
-(Github repository; https://github.com/fravoll/solidity-patterns)
+(Github repository; https://github.com/fravoll/solidity-patterns/blob/master/docs/index.md)
