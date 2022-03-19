@@ -1,12 +1,17 @@
-# noBureaucracy
+# noBureaucracy | !nbrcrc
 
-The management concepts of the future, at least for companies demanding creativity, is decentralized self-organizing organizations (DSOO); organizations in which the focus is on decentralized decision making, minimal centralited power structures and a focus on ensuring that people take ownership (in a team) of their own faith. A Teal organization.
-Methods such as Holacracy is one way of structuring a DSOO. Holacracy defines clear processes and clear rules for howto operate a DSOO. As such it is more than concept, it is (in its own words) the DNA of an organization. 
+The management concepts of the future, at least for companies in demanding markets where rapid adaptation, agility, innovation and creativity is needed, is decentralized self-organizing organizations (DSOO); organizations in which the focus is on decentralized decision making, minimal centralized power structures and a focus on ensuring that people take ownership (in a team) of their own faith. A Teal organization.
 
-This repository collect smart contracts coded in Solidity.
+Differemt methods already exist; Holacracy, Humanocracy, Sociocracy, For-Purpose Organization and others. Methods such as Holacracy is one way of structuring a DSOO. It defines clear processes and clear rules for howto operate a DSOO. As such it is more than concept, it is (in its own words) the DNA of an organization. 
+
+Tools such as Glassfrog and HolaSpirit helps these organizations manage the circles (teams) and capture the roles, accountabilities and tensions.
+
+In the backend there are typically systems that are not decentralized; Finance, HR, support functions. These remains central functions and to some extend bottlenecks. 
+
+This repository collect smart contracts coded in Solidity for implementing a decentralized company backend. It does not duplicate Glassfrogg or HolaSpirit functionality.
 
 # Documentation Format
-All documentation in https://ethereum.stackexchange.com/questions/51494/which-doxygen-tags-are-allowed-for-contracts
+All code is documentated following https://ethereum.stackexchange.com/questions/51494/which-doxygen-tags-are-allowed-for-contracts
 @title - A title that should describe the contract
 @author - The name of the author of the contract
 @notice - Explain to a user what a function does
